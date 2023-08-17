@@ -1,0 +1,91 @@
+class:: BufFFTTrigger
+summary:: Outputs the necessary signal for BufFFT chains, creating the trigger that initiates the chain
+categories:: UGens>FFT
+related:: Classes/FFTTrigger, Classes/BufFFTTrigger2
+
+DESCRIPTION::
+Creates the trigger that initiates the BufFFT FFT chains. Different from FFTTrigger, each instance of BufFFTTrigger only triggers one grain of a set FFT grains. So, if the hop size is 0.5, each of the two grains of the BufFFT will need their own BufFFTTrigger. With a hop size of 0.25, there will need to be 4 BufFFTTrigger ugens to complete the 4 grains of an FFT signal. Luckily, this is easily achieved with MultiChannel Expansion.
+
+
+CLASSMETHODS::
+
+method:: new
+
+ARGUMENT:: buffer
+the buffer that will store the FFT data
+
+ARGUMENT:: hop
+The intended hop size of the FFT chain
+
+ARGUMENT:: start
+Works in tandem with the hop size and step. If the hop size is 2, a "start" value of 0 will mean this FFT trigger will happen first. A start value of 1 means it will happen after a delay of one frame. If the hop size is 4, a value of 0 will trigger the FFT first, 1 second, 2 third, and 3 fourth.
+
+ARGUMENT:: step
+Works in tandem with hop. The step in the FFT. With a hop of 0.5 and a step of 2, it will trigger every fftsize samples. With a hope of 0.5 and a step of 4, it will trigger every 2*fftsize samples.
+
+ARGUMENT:: polar
+A flag. If 0.0, the buffer will be prepared for complex data, if > 0.0, polar data is set up.
+
+EXAMPLES::
+
+code::
+(
+~overlaps = 4;
+~fftSize = 8192;
+
+e = Array.fill(~overlaps, {Buffer.alloc(s, ~fftSize)});
+)
+
+
+(
+arg stretch = 10;
+
+e.do{|item| item.zero};
+
+//plot the triggers of 4 overlapping BufFFTTriggers
+{
+	var accumChain;
+
+	//a set of 4 BufFFTTriggers, one for each overlapping grain
+	var chain = BufFFTTrigger(e, 1/~overlaps, (0..(~overlaps-1)), ~overlaps);
+	(chain>(-1))
+}.plot(1)
+)
+::
+code::
+//a classic PV Time Stretch
+(
+~overlaps = 4;
+~fftSize = 8192;
+d = Buffer.read(s, Platform.resourceDir +/+ "sounds/a11wlk01.wav");
+
+e = Array.fill(~overlaps, {Buffer.alloc(s, ~fftSize)});
+)
+
+(
+arg stretch = 10;
+
+e.do{|item| item.zero};
+
+{
+	var accumChain;
+
+	var chain = BufFFTTrigger(e, 1/~overlaps, (0..(~overlaps-1)), ~overlaps);
+
+	var frameDur = ~fftSize/SampleRate.ir;
+
+	var demand = Dseries(0, ~fftSize/(stretch*~overlaps));
+	var pos = Demand.kr(chain, 0, demandUGens: demand);
+
+	chain = BufFFT_BufCopy(chain, d, pos, BufRateScale.kr(d));
+	chain = BufFFT(chain);
+	accumChain = LocalBuf(~fftSize);
+	accumChain = PV_AccumPhase(accumChain, chain);
+
+	chain = PV_CopyPhase(chain, accumChain);
+
+	Mix(BufIFFT(chain, 0)).dup*0.5;
+
+}.play
+)
+::

@@ -1,0 +1,62 @@
+TITLE:: PV_AccumPhase
+summary:: accumulates the phase of an FFT chain or multiple FFT chains
+categories:: UGens>FFT
+related:: Classes/BufFFT, Classes/PV_CopyPhase
+
+DESCRIPTION::
+accumulates the phase of an FFT chain or multiple FFT chains
+
+
+CLASSMETHODS::
+
+method::new
+
+argument::bufferA
+The buffer holding the accumulating FFT phases.
+
+argument::bufferB
+An FFT chain or array of FFT chains to accumulate the phase of.
+
+INSTANCEMETHODS::
+
+
+EXAMPLES::
+
+code::
+//classic PV Time Stretch
+(
+~overlaps = 4;
+~fftSize = 8192;
+d = Buffer.read(s, Platform.resourceDir +/+ "sounds/a11wlk01.wav");
+
+e = Array.fill(~overlaps, {Buffer.alloc(s, ~fftSize)});
+)
+
+(
+arg stretch = 4;
+
+e.do{|item| item.zero};
+
+{
+	var accumChain;
+
+	 var chain = BufFFTTrigger(e, 1/~overlaps, (0..(~overlaps-1)), ~overlaps);
+
+	var frameDur = ~fftSize/SampleRate.ir;
+
+	var demand = Dseries(0, ~fftSize/(stretch*~overlaps));
+	var pos = Demand.kr(chain, 0, demandUGens: demand);
+
+	chain = BufFFT_BufCopy(chain, d, pos, BufRateScale.kr(d));
+	chain = BufFFT(chain);
+
+	accumChain = LocalBuf(~fftSize);
+	accumChain = PV_AccumPhase(accumChain, chain);
+
+	chain = PV_CopyPhase(chain, accumChain);
+	Mix(BufIFFT(chain, 0)).dup*0.5;
+
+}.play
+)
+
+::

@@ -1,0 +1,68 @@
+TITLE:: BufFFT_BufCopy
+summary:: copies a small section of an audio buffer into a power of two buffer for use in an FFT chain
+categories:: UGens>FFT
+related:: Classes/BufFFT, Classes/BufIFFT
+
+DESCRIPTION::
+A necessary companion to BufFFT. Copies a small section of an existing audio buffer into the power of 2 FFT chain buffer for FFT/PV processing.
+
+
+CLASSMETHODS::
+
+METHOD:: new
+
+ARGUMENT:: bufferA
+the local buffer/fft chain trigger
+
+ARGUMENT:: bufferB
+The larger audio buffer from which we are copying.
+
+ARGUMENT:: bufRateScale
+The audio rate of the larger audio buffer. BufFFT uses quadratic interpolation when copying the buffer.
+
+ARGUMENT:: startFrame
+the sample frame in bufferA from which to start copying audio
+
+
+
+returns:: (describe returnvalue here)
+
+
+INSTANCEMETHODS::
+
+
+EXAMPLES::
+
+code::
+//PaulStretch
+(
+~overlaps = 2;
+~fftSize = 8192;
+d = Buffer.read(s, Platform.resourceDir +/+ "sounds/a11wlk01.wav");
+
+e = Array.fill(~overlaps, {Buffer.alloc(s, ~fftSize)});
+)
+
+(
+arg stretch = 100;
+
+e.do{|item| item.zero};
+
+{
+
+	var chain = BufFFTTrigger(e, 1/~overlaps, (0..(~overlaps-1)), ~overlaps);
+
+	var frameDur = ~fftSize/SampleRate.ir;
+
+	var demand = Dseries(0, ~fftSize/(stretch*~overlaps));
+	var pos = Demand.kr(chain, 0, demandUGens: demand);
+
+	chain = BufFFT_BufCopy(chain, d, pos, BufRateScale.kr(d));
+	chain = BufFFT(chain);
+	chain = PV_Diffuser(chain, chain>(-1));
+
+	Mix(BufIFFT(chain, 0)).dup;
+
+}.play
+)
+::

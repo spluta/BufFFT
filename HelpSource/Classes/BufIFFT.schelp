@@ -1,0 +1,102 @@
+TITLE:: BufIFFT
+summary:: performs an IFFT on a buffer upon receiving a trigger the FFT chain
+categories:: UGens>FFT
+related:: Classes/BufFFT
+
+DESCRIPTION::
+Performs an IFFT on the buffer in an FFT chain upon receiving a trigger (non-negative buffer number) in that chain.
+
+BufIFFT differs from IFFT in that it, along with BufFFTTrigger, BufFFTTrigger2, BufFFT_BufCopy, and BufFFT, is designed to perform FFT operations on a buffer rather than an audio stream. This allows time stretching operations and non chrono-linear sets of grains, two things that are difficult with the standard FFT implementaton. Luckily, all standard SuperCollider PhaseVocoder PV operations should still function normally with BufFFT/BufIFFT.
+
+Because of the implementation, audio will start immediately when a trigger happens rather than being delayed by the duration of one fft frame.
+
+CLASSMETHODS::
+
+METHOD:: new
+
+ARGUMENT:: buffer
+the FFT chain buffer
+
+ARGUMENT:: wintype
+window type for the fft frame. 0 is sine. 1 is hann. -1 is rectangular
+
+ARGUMENT:: winsize
+The windowed audio frames are usually the same size as the buffer. If you wish the FFT to be zero-padded then you can specify a window size smaller than the actual buffer size (e.g. window size 1024 with buffer size 2048). Both values must still be a power of two. Leave this at its default of zero for no zero-padding.
+
+
+
+INSTANCEMETHODS::
+
+
+EXAMPLES::
+
+code::
+//a PaulStretch
+(
+~overlaps = 2;
+~fftSize = 16384;
+d = Buffer.read(s, Platform.resourceDir +/+ "sounds/a11wlk01.wav");
+
+e = Array.fill(~overlaps, {Buffer.alloc(s, ~fftSize)});
+)
+
+
+(
+arg stretch = 100;
+
+e.do{|item| item.zero};
+
+{
+var temp;
+	var chain = BufFFTTrigger(e, 1/~overlaps, (0..(~overlaps-1)), ~overlaps);
+
+	var demand = Dseries(0, ~fftSize/~overlaps/stretch);
+	var pos = Demand.kr(chain, 0, demandUGens: demand);
+
+	chain = BufFFT_BufCopy(chain, d, pos, BufRateScale.kr(d));
+	chain = BufFFT(chain);
+	chain = PV_Diffuser(chain, chain>(-1));
+
+	Mix(BufIFFT(chain)).dup*0.8;
+
+}.play
+)
+::
+
+code::
+
+//grains of brickwalled FFT frames
+(
+~maxGrains = 10;
+~fftSize = 4096;
+d = Buffer.read(s, Platform.resourceDir +/+ "sounds/a11wlk01.wav");
+
+e = Array.fill(~maxGrains, {Buffer.alloc(s, ~fftSize)});
+)
+
+(
+e.do{|item| item.zero};
+
+{
+	var sig;
+	var trig = PulseDivider.kr(Dust.kr(9), ~maxGrains, (0..~maxGrains-1));
+
+	//BufFFTTrigger2 receives the triggers, one for each chain buffer, and outputs the correct information for the FFT Chain
+	var chain = BufFFTTrigger2(e, trig);
+
+	var frameDur = ~fftSize/SampleRate.ir;
+
+	var pos = TRand.kr(0, BufFrames.kr(d), trig);
+
+	chain = BufFFT_BufCopy(chain, d, pos, BufRateScale.kr(d));
+
+	chain = BufFFT(chain);
+	chain = PV_BrickWall(chain, TExpRand.kr(0.0075,0.05, trig));
+	chain = PV_BrickWall(chain, TExpRand.kr(-0.0075,-0.05, trig));
+	sig = BufIFFT(chain, 0);
+
+	Mix(Pan2.ar(sig, TRand.kr(-1,1,chain)));
+
+}.play
+)
+::

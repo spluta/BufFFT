@@ -11,17 +11,19 @@ CLASSMETHODS::
 
 METHOD:: new
 
-ARGUMENT:: bufferA
+ARGUMENT:: chainBuf
 the local buffer/fft chain trigger
 
-ARGUMENT:: bufferB
+ARGUMENT:: sourceBuf
 The larger audio buffer from which we are copying.
+
+ARGUMENT:: startFrame
+the sample frame in bufferA from which to start copying audio
 
 ARGUMENT:: bufRateScale
 The audio rate of the larger audio buffer. BufFFT uses quadratic interpolation when copying the buffer.
 
-ARGUMENT:: startFrame
-the sample frame in bufferA from which to start copying audio
+
 
 
 
@@ -37,14 +39,15 @@ code::
 //PaulStretch
 (
 ~overlaps = 2;
-~fftSize = 8192;
+~fftSize = 16384;
 d = Buffer.read(s, Platform.resourceDir +/+ "sounds/a11wlk01.wav");
 
 e = Array.fill(~overlaps, {Buffer.alloc(s, ~fftSize)});
 )
 
 (
-arg stretch = 100;
+//the duration multiplier
+arg stretch = 30;
 
 e.do{|item| item.zero};
 
@@ -52,16 +55,15 @@ e.do{|item| item.zero};
 
 	var chain = BufFFTTrigger(e, 1/~overlaps, (0..(~overlaps-1)), ~overlaps);
 
-	var frameDur = ~fftSize/SampleRate.ir;
-
 	var demand = Dseries(0, ~fftSize/(stretch*~overlaps));
 	var pos = Demand.kr(chain, 0, demandUGens: demand);
 
+	//BufFFT_BufCopy copies a chunk of audio from the sourceBuf to the chainBuf before FFT processing
 	chain = BufFFT_BufCopy(chain, d, pos, BufRateScale.kr(d));
 	chain = BufFFT(chain);
 	chain = PV_Diffuser(chain, chain>(-1));
 
-	Mix(BufIFFT(chain, 0)).dup;
+	Mix(BufIFFT(chain, 0)).dup*0.8*Env([1,1],[BufDur.kr(d)*stretch+(~fftSize/SampleRate.ir)]).kr(doneAction:2);
 
 }.play
 )

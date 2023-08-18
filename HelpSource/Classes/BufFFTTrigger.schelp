@@ -56,14 +56,14 @@ code::
 //a classic PV Time Stretch
 (
 ~overlaps = 4;
-~fftSize = 8192;
+~fftSize = 2048;
 d = Buffer.read(s, Platform.resourceDir +/+ "sounds/a11wlk01.wav");
 
 e = Array.fill(~overlaps, {Buffer.alloc(s, ~fftSize)});
 )
 
 (
-arg stretch = 10;
+arg stretch = 4;
 
 e.do{|item| item.zero};
 
@@ -84,7 +84,7 @@ e.do{|item| item.zero};
 
 	chain = PV_CopyPhase(chain, accumChain);
 
-	Mix(BufIFFT(chain, 0)).dup*0.5;
+	Mix(BufIFFT(chain, 0)).dup*0.8*Env([1,1],[BufDur.kr(d)*stretch+(~fftSize/SampleRate.ir)]).kr(doneAction:2);
 
 }.play
 )

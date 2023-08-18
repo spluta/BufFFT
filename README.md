@@ -1,4 +1,5 @@
-BufFFT Library
+# BufFFT Library
+
 Sam Pluta
  
 
@@ -14,4 +15,4 @@ cmake --build . --config Release
 ```
 
 It should build BufFFTTrigger, BufFFTTrigger2, BufFFT_BufCopy, BufFFT, BufIFFT, and PV_AccumPhase plugins.
-# BufFFT
+

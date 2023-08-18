@@ -50,11 +50,14 @@ e.do{|item| item.zero};
 	chain = BufFFT_BufCopy(chain, d, pos, BufRateScale.kr(d));
 	chain = BufFFT(chain);
 
+	//the phase is accumulated into the accumChain buffer
 	accumChain = LocalBuf(~fftSize);
 	accumChain = PV_AccumPhase(accumChain, chain);
 
+	//the accumChain buffer is copied back into each FFT chain as it is triggered
 	chain = PV_CopyPhase(chain, accumChain);
-	Mix(BufIFFT(chain, 0)).dup*0.5;
+
+	Mix(BufIFFT(chain, 0)).dup*0.8*Env([1,1],[BufDur.kr(d)*stretch+(~fftSize/SampleRate.ir)]).kr(doneAction:2);
 
 }.play
 )

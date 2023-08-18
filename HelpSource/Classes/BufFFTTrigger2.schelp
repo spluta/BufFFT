@@ -54,3 +54,35 @@ e.do{|item| item.zero};
 }.play
 )
 ::
+
+
+code::
+//Mouse controlled PaulStretch
+(
+~overlaps = 2;
+~fftSize = 8192;
+d = Buffer.read(s, Platform.resourceDir +/+ "sounds/a11wlk01.wav");
+
+e = Array.fill(~overlaps, {Buffer.alloc(s, ~fftSize)});
+)
+
+(
+//the duration multiplier
+
+e.do{|item| item.zero};
+
+{
+
+	var chain = BufFFTTrigger(e, 1/~overlaps, (0..(~overlaps-1)), ~overlaps);
+
+	var pos = MouseX.kr(0, BufFrames.kr(d));
+
+	chain = BufFFT_BufCopy(chain, d, pos, BufRateScale.kr(d));
+	chain = BufFFT(chain);
+	chain = PV_Diffuser(chain, chain>(-1));
+
+	Mix(BufIFFT(chain, 0)).dup*0.8;
+
+}.play
+)
+::

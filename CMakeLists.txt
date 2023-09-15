@@ -1,11 +1,11 @@
 cmake_minimum_required (VERSION 2.8)
-project (OversamplingOscillators)
+project (BufFFT)
 
 include_directories(${SC_PATH}/include/plugin_interface)
 include_directories(${SC_PATH}/include/common)
 include_directories(${SC_PATH}/external_libraries/libsndfile/)
 
-set(CMAKE_CXX_STANDARD 11)
+set(CMAKE_CXX_STANDARD 17)
 
 set(CMAKE_SHARED_MODULE_PREFIX "")
 if(APPLE OR WIN32)
@@ -14,7 +14,18 @@ endif()
 
 add_library(BufFFT MODULE BufFFT.cpp)
 add_library(BufIFFT MODULE BufFFT.cpp)
+add_library(BufIFFT2 MODULE BufFFT.cpp)
 add_library(BufFFTTrigger MODULE BufFFT.cpp)
 add_library(BufFFTTrigger2 MODULE BufFFT.cpp)
 add_library(BufFFT_BufCopy MODULE BufFFT.cpp)
 add_library(PV_AccumPhase MODULE BufFFT.cpp)
+
+if (APPLE)
+	target_link_libraries(BufFFT "-framework Accelerate")
+    target_link_libraries(BufIFFT "-framework Accelerate")
+    target_link_libraries(BufIFFT2 "-framework Accelerate")
+    target_link_libraries(BufFFTTrigger "-framework Accelerate")
+    target_link_libraries(BufFFTTrigger2 "-framework Accelerate")
+    target_link_libraries(BufFFT_BufCopy "-framework Accelerate")
+    target_link_libraries(PV_AccumPhase "-framework Accelerate")
+endif()

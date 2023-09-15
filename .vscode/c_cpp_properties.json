@@ -6,7 +6,8 @@
                 "${workspaceFolder}/**",
                 "/Users/spluta1/Documents/SC/SuperColliderBuild/SuperCollider/**",
                 "/Users/spluta1/Documents/SC/SuperColliderBuild/SuperCollider/include/plugin_interface",
-                "/Users/spluta1/Documents/SC/SuperColliderBuild/SuperCollider/include/common"
+                "/Users/spluta1/Documents/SC/SuperColliderBuild/SuperCollider/include/common",
+                "/Library/Developer/CommandLineTools/SDKs/MacOSX13.3.sdk/System/Library/Frameworks/Accelerate.framework/Versions/A/Headers/"
             ],
             "defines": [],
             "macFrameworkPath": [

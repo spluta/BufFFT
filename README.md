@@ -31,7 +31,7 @@ cargo build --release
 ```
 
 
-then in the root directory, run:
+then in the project root directory "BufFFT", run:
 
 ```
 mkdir build

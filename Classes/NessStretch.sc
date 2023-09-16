@@ -40,7 +40,6 @@ NessStretch {
 		}{
 			winSizeDivisor = 2**(9-numSlices);
 		};*/
-		buffer.poll;
 
 		localBuf = LocalBuf(chunkSizeTimes2);
 

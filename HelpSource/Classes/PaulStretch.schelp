@@ -10,7 +10,7 @@ Implements the classic PaulStretch. This is a convenience method. It actually im
 CLASSMETHODS::
 
 METHOD:: renderNRT
-PaulStretch has to calculate 65536 sample blocks, so it is by nature Non-RealTime.
+PaulStretch has to calculate 65536 sample blocks, so it is by nature Non-RealTime. NRT mode can process a file of any duration or number of channels and will output a file of any duration or number of channels
 
 METHOD:: ar
 PaulStretch can run in real-time, though you are sure to experience dropouts every 65536 samples
@@ -50,7 +50,7 @@ code::
 //NRT will give you the best result
 //NRT can also process any number of files, so a 100 channel sound file will result in 100 channels of output
 (
-f = PathName(PaulStretch.filenameSymbol.asString).pathOnly+/+"Sounds/"++"Stairs2.wav";
+f = Platform.resourceDir +/+ "sounds/a11wlk01.wav";
 
 NessStretch.renderNRT(f, 100, 9, 0, 3, 1, -1, (Platform.recordingsDir+/+"Stairs2Paul.wav"))
 )
@@ -58,8 +58,8 @@ NessStretch.renderNRT(f, 100, 9, 0, 3, 1, -1, (Platform.recordingsDir+/+"Stairs2
 //(if precision at the beginning of a file is imperative, add some silence to the front of the file to be processed)
 
 //real-time mode is possible, but is likely to have hiccups
-f = PathName(NessStretch.filenameSymbol.asString).pathOnly+/+"Sounds/"++"Stairs.wav";
-b = Buffer.read(s, f); //read the left channel
+f = Platform.resourceDir +/+ "sounds/a11wlk01.wav";
+b = Buffer.read(s, f);
 
 //only works on mono buffers
 ({
@@ -75,7 +75,7 @@ b = Buffer.read(s, f); //read the left channel
 
 (//for a stereo file, load each channel separately
 //real-time mode is possible, but is likely to have hiccups
-f = PathName(PaulStretch.filenameSymbol.asString).pathOnly+/+"Sounds/"++"Stairs2.wav";
+f = "some stereo file on your computer";
 c = Buffer.readChannel(s, f, channels:[0]); //read the left channel
 d = Buffer.readChannel(s, f, channels:[1]);
 )

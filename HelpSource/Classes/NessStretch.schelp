@@ -15,7 +15,7 @@ The BufFFT library is needed for NessStretch and PaulStretch to work! In particu
 CLASSMETHODS::
 
 METHOD:: renderNRT
-NessStretch has to calculate 65536 sample blocks, so it is by nature Non-RealTime.
+NessStretch has to calculate 65536 sample blocks, so it is by nature Non-RealTime. NRT mode can process a file of any duration or number of channels and will output a file of any duration or number of channels
 
 METHOD:: ar
 NessStretch can run in real-time, though you are sure to experience dropouts every 65536 samples
@@ -53,17 +53,17 @@ EXAMPLES::
 
 code::
 //NRT will give you the best result
-//NRT can also process any number of files, so a 100 channel sound file will result in 100 channels of output
+//NRT can also process any number of channels, so a 100 channel input sound file will result in a 100 channel output file
 (
-f = PathName(NessStretch.filenameSymbol.asString).pathOnly+/+"Sounds/"++"Stairs2.wav";
+f = Platform.resourceDir +/+ "sounds/a11wlk01.wav";
 
-NessStretch.renderNRT(f, 100, 9, 0, 3, 1, -1, Platform.recordingsDir+/+"Stairs2Ness_100.wav")
+NessStretch.renderNRT(f, 100, 9, 0, 3, 1, -1, Platform.recordingsDir+/+"aChild_100.wav")
 )
 
 //(if precision at the beginning of a file is imperative, add some silence to the front of the file to be processed)
 
 //real-time mode is possible, but is likely to have hiccups
-f = PathName(NessStretch.filenameSymbol.asString).pathOnly+/+"Sounds/"++"Stairs.wav";
+f = Platform.resourceDir +/+ "sounds/a11wlk01.wav";
 b = Buffer.read(s, f); //read the left channel
 
 //only works on mono buffers
@@ -74,9 +74,9 @@ b = Buffer.read(s, f); //read the left channel
 
 (//for a stereo file, load each channel separately
 //real-time mode is possible, but is likely to have hiccups
-f = PathName(NessStretch.filenameSymbol.asString).pathOnly+/+"Sounds/"++"Stairs2.wav";
+f = "some stereo file on your computer";
 c = Buffer.readChannel(s, f, channels:[0]); //read the left channel
-d = Buffer.readChannel(s, f, channels:[1]);
+d = Buffer.readChannel(s, f, channels:[1]); //read the right channel
 )
 
 //only works on mono buffers

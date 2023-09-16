@@ -29,7 +29,10 @@ In the terminal, go into the "BufFFT/source/ness_stretch" directory and build th
 ```
 cargo build --release
 ```
-
+return to the project root directory:
+```
+cd ../..
+```
 
 then in the project root directory "BufFFT", run:
 

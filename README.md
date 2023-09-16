@@ -42,6 +42,4 @@ cmake --build . --config Release
 
 as you normally would when building SC plugins.
 
-"NessStretchUGen.scx" should be created in the build directory. 
-
 It should build BufFFTTrigger, BufFFTTrigger2, BufFFT_BufCopy, BufFFT, BufIFFT, BufIFFT2, PV_AccumPhase, and NessStretchUGen plugins. The .scx files from the "build" directory, the HelpSource directory, and the Classes directory all need to be the SC Extensions path (I simply place the entire BufFFT directory in the Extensions folder) and recompile the class library. The code in the help file should run.

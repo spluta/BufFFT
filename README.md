@@ -24,7 +24,7 @@ If you only want the BufFFT plugins, you can skip the Rust cargo build, but then
 
 You will need Rust cargo to compile the ness_stretch Rust library. Rust is super easy to install. Try "brew install rust" or find directions here: https://www.rust-lang.org/tools/install
 
-In the terminal, from the project directory "BufFFT, change directory into the "BufFFT/source/ness_stretch" directory:
+In the terminal, from the project directory "BufFFT", change directory into the "BufFFT/source/ness_stretch" directory:
 
 ```
 cd source/ness_stretch

@@ -13,8 +13,8 @@ PaulStretch {
 		^NessStretch.ar(buffer, durMult, 1, startSample, extreme, paulStretchWinSize)
 	}
 
-	*renderNRT {|fileName, durMult = 100, numSlices = 9, extreme = 0, paulStretchWinSize = 1, outFileName|
-		NessStretch.renderNRT(fileName, durMult, 1, extreme, paulStretchWinSize, outFileName);
+	*renderNRT {|fileName, durMult = 100, startSample=0, extreme = 0, paulStretchWinSize = 1, dur = -1, outFileName|
+		NessStretch.renderNRT(fileName, durMult, 1, 0, extreme, paulStretchWinSize, outFileName);
 	}
 }
 

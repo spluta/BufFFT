@@ -1,7 +1,7 @@
 TITLE:: PaulStretch
 summary:: A 1 slice version of the NessStretch
 categories:: Undocumented classes, UGens>Undocumented
-related:: Classes/NessStretch, Reference/NessStretch
+related:: Classes/NessStretch, Classes/BufFFT
 
 DESCRIPTION::
 Implements the classic PaulStretch. This is a convenience method. It actually implements the NessStretch, but with 1 spectral slice, not 9. See the NessStretch helpfile for more.
@@ -11,9 +11,6 @@ CLASSMETHODS::
 
 METHOD:: renderNRT
 PaulStretch has to calculate 65536 sample blocks, so it is by nature Non-RealTime. NRT mode can process a file of any duration or number of channels and will output a file of any duration or number of channels
-
-METHOD:: ar
-PaulStretch can run in real-time, though you are sure to experience dropouts every 65536 samples
 
 ARGUMENT:: fileName
 the path of the file to be stretched
@@ -41,6 +38,11 @@ ARGUMENT:: outFileName
 The name of the output file. If nil, the output file will be inputFile_durMult.wav
 
 
+METHOD:: ar
+PaulStretch can run in real-time, though you are sure to experience dropouts every 65536 samples
+
+
+
 returns:: (describe returnvalue here)
 
 
@@ -52,7 +54,7 @@ code::
 (
 f = Platform.resourceDir +/+ "sounds/a11wlk01.wav";
 
-NessStretch.renderNRT(f, 100, 9, 0, 3, 1, -1, (Platform.recordingsDir+/+"Stairs2Paul.wav"))
+NessStretch.renderNRT(f, 100, 9, 0, 3, 1, -1, (Platform.recordingsDir+/+"aPaulChild.wav"))
 )
 
 //(if precision at the beginning of a file is imperative, add some silence to the front of the file to be processed)

@@ -17,9 +17,6 @@ CLASSMETHODS::
 METHOD:: renderNRT
 NessStretch has to calculate 65536 sample blocks, so it is by nature Non-RealTime. NRT mode can process a file of any duration or number of channels and will output a file of any duration or number of channels
 
-METHOD:: ar
-NessStretch can run in real-time, though you are sure to experience dropouts every 65536 samples
-
 ARGUMENT:: fileName
 the path of the file to be stretched
 
@@ -48,6 +45,8 @@ The duration of the output
 ARGUMENT:: outFileName
 The name of the output file. If nil, the output file will be inputFile_durMult.wav
 
+METHOD:: ar
+NessStretch can run in real-time, though you are sure to experience dropouts every 65536 samples
 
 EXAMPLES::
 

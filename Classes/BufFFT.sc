@@ -55,19 +55,19 @@ BufIFFT2 : PV_ChainUGen {
 
 }
 
-BufFFT_CrossFade : WidthFirstUGen {
-	*new { | chainA, chainB |
-		^this.ar(chainA, chainB)
-	}
+// BufFFT_CrossFade : WidthFirstUGen {
+// 	*new { | chainA, chainB |
+// 		^this.ar(chainA, chainB)
+// 	}
 
-	*ar { | chainA, chainB |
-		^this.multiNew('audio', chainA, chainB)
-	}
+// 	*ar { | chainA, chainB |
+// 		^this.multiNew('audio', chainA, chainB)
+// 	}
 
-	*kr { | chainA, chainB |
-		^this.multiNew('control', chainA, chainB)
-	}
-}
+// 	*kr { | chainA, chainB |
+// 		^this.multiNew('control', chainA, chainB)
+// 	}
+// }
 
 BufFFT_BufCopy : PV_ChainUGen {
 	*new { arg chainBuf, sourceBuf, startFrame, bufRateScale=1, mult=1;

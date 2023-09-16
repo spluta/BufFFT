@@ -1,0 +1,87 @@
+TITLE:: NessStretch
+summary:: NessStretch time stretching algorithm
+categories:: UGens>FFT
+related:: Classes/BufFFT, Classes/PaulStretch
+
+DESCRIPTION::
+The NessStretch implements a phase randomized Real FFT time stretch algorithm which splits a  sound file into 9 discrete frequency bands, and uses a decreasing frame size to correspond to increasing frequency. Starting with a largest frame of 65536, the algorithm will use the following frequency band/frame size breakdown (assuming 44100 Hz input):
+
+0-86 Hz : 65536 frames, 86-172 : 32768, 172-344 : 16384, 344-689 : 8192, 689-1378 : 4096, 1378-2756 : 2048, 2756-5512 : 1024, 5512-11025 : 512, 11025-22050 : 256.
+
+The NessStretch is a refinement of Paul Nasca's excellent PaulStretch algorithm. PaulStretch uses a single frame size throughout the entire frequency range. The NessStretch's layered analysis bands are a better match for human frequency perception, and do a better job of resolving shorter, noisier high-frequency sounds (sibilance, snares, etc.). For the classic PaulStretch, try out the PaulStretch plugin, included in this package, or see the BufFFT help files for other implementations.
+
+The BufFFT library is needed for NessStretch and PaulStretch to work! In particular, you need the BufFFT_BufCopy UGen.
+
+CLASSMETHODS::
+
+METHOD:: renderNRT
+NessStretch has to calculate 65536 sample blocks, so it is by nature Non-RealTime.
+
+METHOD:: ar
+NessStretch can run in real-time, though you are sure to experience dropouts every 65536 samples
+
+ARGUMENT:: fileName
+the path of the file to be stretched
+
+ARGUMENT:: durMult
+the duration multiplier. eg - 50 is 50 times duration
+
+ARGUMENT:: numSlices
+the number of slices of the spectrum (optional - default is 9 - 4 or 5 is nice for transients/perc). For below 88.2K, the max slice number is 9. For a file of 88.2K or over, the max slice number is 10.
+
+ARGUMENT:: startSample
+the first sample in the source file to be processed. Default == 0
+
+ARGUMENT:: extreme
+In addition to the standard NessStretch (default 0), there are 3+ extreme modes (more cpu) set by this flag. 1 - makes 10 versions of each frame and chooses the one that best correlates with the previous frame 2 - breaks the (9) spectral slices into 4 more slices, and correlates those independently 3 - both 1 and 2, with the spectra split into 2 extra slices and 3 versions of each frame compared for correlation 4+ - like extreme 1, except the number assigned is the number of versions of each frame made (-e 5 makes 5 versions of each frame). 3 is my favorite.
+
+ARGUMENT:: paulStretchWinSize
+If numSlices is set to 1, we effectively have a PaulStretch.
+1 - makes the PaulStretch window length 8192
+2 - make the PaulStretch window length 16384
+3 - make the PaulStretch window length 32768
+
+
+ARGUMENT:: dur
+The duration of the output
+
+ARGUMENT:: outFileName
+The name of the output file. If nil, the output file will be inputFile_durMult.wav
+
+
+EXAMPLES::
+
+code::
+//NRT will give you the best result
+//NRT can also process any number of files, so a 100 channel sound file will result in 100 channels of output
+(
+f = PathName(NessStretch.filenameSymbol.asString).pathOnly+/+"Sounds/"++"Stairs2.wav";
+
+NessStretch.renderNRT(f, 100, 9, 0, 3, 1, -1, Platform.recordingsDir+/+"Stairs2Ness_100.wav")
+)
+
+//(if precision at the beginning of a file is imperative, add some silence to the front of the file to be processed)
+
+//real-time mode is possible, but is likely to have hiccups
+f = PathName(NessStretch.filenameSymbol.asString).pathOnly+/+"Sounds/"++"Stairs.wav";
+b = Buffer.read(s, f); //read the left channel
+
+//only works on mono buffers
+({
+	NessStretch.ar(b, 100, 9).dup;
+}.play)
+
+
+(//for a stereo file, load each channel separately
+//real-time mode is possible, but is likely to have hiccups
+f = PathName(NessStretch.filenameSymbol.asString).pathOnly+/+"Sounds/"++"Stairs2.wav";
+c = Buffer.readChannel(s, f, channels:[0]); //read the left channel
+d = Buffer.readChannel(s, f, channels:[1]);
+)
+
+//only works on mono buffers
+({
+	[c,d].collect{|buf| NessStretch.ar(buf, 100, 9)};
+}.play)
+
+::

@@ -1,0 +1,70 @@
+TITLE:: BufIFFT2
+summary:: performs an IFFT on a buffer upon receiving a trigger the FFT chain
+categories:: UGens>FFT
+related:: Classes/BufFFT, Classes/BufIFFT
+
+DESCRIPTION::
+Performs an IFFT on the buffer in an FFT chain upon receiving a trigger (non-negative buffer number) in that chain.
+
+BufIFFT2 differs from BufIFFT in that it attempts to smooth the crossfade between overlapping IFFT frames by checking the correlation between the two frames and adjusting the window to compensate for dips in audio signal. Otherwise it functions exactly like BufIFFT.
+
+CLASSMETHODS::
+
+METHOD:: new
+
+ARGUMENT:: bufferA
+the first overlapping FFT chain buffer
+
+ARGUMENT:: bufferA
+the second overlapping FFT chain buffer
+
+ARGUMENT:: wintype
+window type for the fft frame. 0 is sine. 1 is hann. -1 is rectangular
+
+ARGUMENT:: winsize
+The windowed audio frames are usually the same size as the buffer. If you wish the FFT to be zero-padded then you can specify a window size smaller than the actual buffer size (e.g. window size 1024 with buffer size 2048). Both values must still be a power of two. Leave this at its default of zero for no zero-padding.
+
+
+
+INSTANCEMETHODS::
+
+
+EXAMPLES::
+
+code::
+//a PaulStretch - this is improved (slightly) over BufFFT
+(
+~overlaps = 2;
+~fftSize = 16384;
+d = Buffer.read(s, PathName(BufFFT.filenameSymbol.asString).pathOnly+/+"Sounds/Stairs.wav");
+
+e = Array.fill(~overlaps, {Buffer.alloc(s, ~fftSize)});
+)
+
+(
+//the duration multiplier
+arg stretch = 10;
+
+e.do{|item| item.zero};
+
+{
+	//because e has 2 buffer, BufFFTTrigger multichannel expands out to two UGens
+	//allowing the rest of the chain to work
+	var chain = BufFFTTrigger(e, 0.5, (0..(~overlaps-1)), ~overlaps);
+
+	var demand = Dseries(0, ~fftSize/(stretch*~overlaps));
+	var pos = Demand.kr(chain, 0, demandUGens: demand);
+
+	chain = BufFFT_BufCopy(chain, d, pos, BufRateScale.kr(d));
+	chain = BufFFT(chain);
+	chain = PV_Diffuser(chain, chain>(-1));
+
+	//the syntax for BufIFFT2 is slightly different from BufIFFT
+	//for BufIFFT there are 2 or 4 overlapping chains that act independently, thus are processed by their own BufIFFT UGen
+	//for BufIFFT2, a single UGen needs to process both chains, so it can calculate the correlation internally and apply the correct IFFT window
+	BufIFFT2(chain[0], chain[1]).dup*0.5;
+
+
+}.play
+)
+::

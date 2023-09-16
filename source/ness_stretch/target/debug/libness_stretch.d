@@ -1,0 +1,1 @@
+/Users/spluta1/Library/Application\ Support/SuperCollider/Extensions/MyPlugins/BufFFT/source/ness_stretch/target/debug/libness_stretch.dylib: /Users/spluta1/Library/Application\ Support/SuperCollider/Extensions/MyPlugins/BufFFT/source/ness_stretch/build.rs /Users/spluta1/Library/Application\ Support/SuperCollider/Extensions/MyPlugins/BufFFT/source/ness_stretch/src/lib.rs

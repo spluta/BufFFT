@@ -1,0 +1,9 @@
+/Users/spluta1/Library/Application Support/SuperCollider/Extensions/MyPlugins/BufFFT/source/ness_stretch/target/aarch64-apple-ios/release/deps/strength_reduce-4cbfe92f65246e43.rmeta: /Users/spluta1/.cargo/registry/src/index.crates.io-6f17d22bba15001f/strength_reduce-0.2.4/src/lib.rs /Users/spluta1/.cargo/registry/src/index.crates.io-6f17d22bba15001f/strength_reduce-0.2.4/src/long_division.rs /Users/spluta1/.cargo/registry/src/index.crates.io-6f17d22bba15001f/strength_reduce-0.2.4/src/long_multiplication.rs
+
+/Users/spluta1/Library/Application Support/SuperCollider/Extensions/MyPlugins/BufFFT/source/ness_stretch/target/aarch64-apple-ios/release/deps/libstrength_reduce-4cbfe92f65246e43.rlib: /Users/spluta1/.cargo/registry/src/index.crates.io-6f17d22bba15001f/strength_reduce-0.2.4/src/lib.rs /Users/spluta1/.cargo/registry/src/index.crates.io-6f17d22bba15001f/strength_reduce-0.2.4/src/long_division.rs /Users/spluta1/.cargo/registry/src/index.crates.io-6f17d22bba15001f/strength_reduce-0.2.4/src/long_multiplication.rs
+
+/Users/spluta1/Library/Application Support/SuperCollider/Extensions/MyPlugins/BufFFT/source/ness_stretch/target/aarch64-apple-ios/release/deps/strength_reduce-4cbfe92f65246e43.d: /Users/spluta1/.cargo/registry/src/index.crates.io-6f17d22bba15001f/strength_reduce-0.2.4/src/lib.rs /Users/spluta1/.cargo/registry/src/index.crates.io-6f17d22bba15001f/strength_reduce-0.2.4/src/long_division.rs /Users/spluta1/.cargo/registry/src/index.crates.io-6f17d22bba15001f/strength_reduce-0.2.4/src/long_multiplication.rs
+
+/Users/spluta1/.cargo/registry/src/index.crates.io-6f17d22bba15001f/strength_reduce-0.2.4/src/lib.rs:
+/Users/spluta1/.cargo/registry/src/index.crates.io-6f17d22bba15001f/strength_reduce-0.2.4/src/long_division.rs:
+/Users/spluta1/.cargo/registry/src/index.crates.io-6f17d22bba15001f/strength_reduce-0.2.4/src/long_multiplication.rs:

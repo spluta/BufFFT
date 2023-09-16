@@ -1,7 +1,7 @@
 TITLE:: BufIFFT
 summary:: performs an IFFT on a buffer upon receiving a trigger the FFT chain
 categories:: UGens>FFT
-related:: Classes/BufFFT
+related:: Classes/BufFFT, Classes/BufIFFT2
 
 DESCRIPTION::
 Performs an IFFT on the buffer in an FFT chain upon receiving a trigger (non-negative buffer number) in that chain.

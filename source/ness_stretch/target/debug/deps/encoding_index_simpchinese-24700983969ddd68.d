@@ -1,0 +1,9 @@
+/Users/spluta1/Library/Application Support/SuperCollider/Extensions/MyPlugins/BufFFT/source/ness_stretch/target/debug/deps/encoding_index_simpchinese-24700983969ddd68.rmeta: /Users/spluta1/.cargo/registry/src/index.crates.io-6f17d22bba15001f/encoding-index-simpchinese-1.20141219.5/lib.rs /Users/spluta1/.cargo/registry/src/index.crates.io-6f17d22bba15001f/encoding-index-simpchinese-1.20141219.5/gb18030.rs /Users/spluta1/.cargo/registry/src/index.crates.io-6f17d22bba15001f/encoding-index-simpchinese-1.20141219.5/gb18030_ranges.rs
+
+/Users/spluta1/Library/Application Support/SuperCollider/Extensions/MyPlugins/BufFFT/source/ness_stretch/target/debug/deps/libencoding_index_simpchinese-24700983969ddd68.rlib: /Users/spluta1/.cargo/registry/src/index.crates.io-6f17d22bba15001f/encoding-index-simpchinese-1.20141219.5/lib.rs /Users/spluta1/.cargo/registry/src/index.crates.io-6f17d22bba15001f/encoding-index-simpchinese-1.20141219.5/gb18030.rs /Users/spluta1/.cargo/registry/src/index.crates.io-6f17d22bba15001f/encoding-index-simpchinese-1.20141219.5/gb18030_ranges.rs
+
+/Users/spluta1/Library/Application Support/SuperCollider/Extensions/MyPlugins/BufFFT/source/ness_stretch/target/debug/deps/encoding_index_simpchinese-24700983969ddd68.d: /Users/spluta1/.cargo/registry/src/index.crates.io-6f17d22bba15001f/encoding-index-simpchinese-1.20141219.5/lib.rs /Users/spluta1/.cargo/registry/src/index.crates.io-6f17d22bba15001f/encoding-index-simpchinese-1.20141219.5/gb18030.rs /Users/spluta1/.cargo/registry/src/index.crates.io-6f17d22bba15001f/encoding-index-simpchinese-1.20141219.5/gb18030_ranges.rs
+
+/Users/spluta1/.cargo/registry/src/index.crates.io-6f17d22bba15001f/encoding-index-simpchinese-1.20141219.5/lib.rs:
+/Users/spluta1/.cargo/registry/src/index.crates.io-6f17d22bba15001f/encoding-index-simpchinese-1.20141219.5/gb18030.rs:
+/Users/spluta1/.cargo/registry/src/index.crates.io-6f17d22bba15001f/encoding-index-simpchinese-1.20141219.5/gb18030_ranges.rs:

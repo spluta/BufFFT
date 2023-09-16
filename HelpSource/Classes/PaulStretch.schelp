@@ -1,0 +1,89 @@
+TITLE:: PaulStretch
+summary:: A 1 slice version of the NessStretch
+categories:: Undocumented classes, UGens>Undocumented
+related:: Classes/NessStretch, Reference/NessStretch
+
+DESCRIPTION::
+Implements the classic PaulStretch. This is a convenience method. It actually implements the NessStretch, but with 1 spectral slice, not 9. See the NessStretch helpfile for more.
+
+
+CLASSMETHODS::
+
+METHOD:: renderNRT
+PaulStretch has to calculate 65536 sample blocks, so it is by nature Non-RealTime.
+
+METHOD:: ar
+PaulStretch can run in real-time, though you are sure to experience dropouts every 65536 samples
+
+ARGUMENT:: fileName
+the path of the file to be stretched
+
+ARGUMENT:: durMult
+the duration multiplier. eg - 50 is 50 times duration
+
+ARGUMENT:: startSample
+the first sample in the source file to be processed. Default == 0
+
+ARGUMENT:: extreme
+In addition to the standard NessStretch (default 0), there are 3+ extreme modes (more cpu) set by this flag. 1 - makes 10 versions of each frame and chooses the one that best correlates with the previous frame 2 - breaks the spectral slices into 4 more slices, and correlates those independently 3 - both 1 and 2, with the spectra split into 2 extra slices and 3 versions of each frame compared for correlation 4+ - like extreme 1, except the number assigned is the number of versions of each frame made (-e 5 makes 5 versions of each frame). 3 is my favorite.
+
+ARGUMENT:: paulStretchWinSize
+If numSlices is set to 1, we effectively have a PaulStretch.
+1 - makes the PaulStretch window length 8192
+2 - make the PaulStretch window length 16384
+3 - make the PaulStretch window length 32768
+
+
+ARGUMENT:: dur
+The duration of the output
+
+ARGUMENT:: outFileName
+The name of the output file. If nil, the output file will be inputFile_durMult.wav
+
+
+returns:: (describe returnvalue here)
+
+
+EXAMPLES::
+
+code::
+//NRT will give you the best result
+//NRT can also process any number of files, so a 100 channel sound file will result in 100 channels of output
+(
+f = PathName(PaulStretch.filenameSymbol.asString).pathOnly+/+"Sounds/"++"Stairs2.wav";
+
+NessStretch.renderNRT(f, 100, 9, 0, 3, 1, -1, (Platform.recordingsDir+/+"Stairs2Paul.wav"))
+)
+
+//(if precision at the beginning of a file is imperative, add some silence to the front of the file to be processed)
+
+//real-time mode is possible, but is likely to have hiccups
+f = PathName(NessStretch.filenameSymbol.asString).pathOnly+/+"Sounds/"++"Stairs.wav";
+b = Buffer.read(s, f); //read the left channel
+
+//only works on mono buffers
+({
+	PaulStretch.ar(b, 100, 0, 0, 1).dup;
+}.play)
+
+//change the window size
+//only works on mono buffers
+({
+	PaulStretch.ar(b, 100, 0, 0, 3).dup;
+}.play)
+
+
+(//for a stereo file, load each channel separately
+//real-time mode is possible, but is likely to have hiccups
+f = PathName(PaulStretch.filenameSymbol.asString).pathOnly+/+"Sounds/"++"Stairs2.wav";
+c = Buffer.readChannel(s, f, channels:[0]); //read the left channel
+d = Buffer.readChannel(s, f, channels:[1]);
+)
+
+//only works on mono buffers
+({
+	[PaulStretch.ar(c, 100, 0, 0, 1), PaulStretch.ar(d, 100, 0, 0, 1)].dup;
+}.play)
+
+::
+

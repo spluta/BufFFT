@@ -1,0 +1,10 @@
+/Users/spluta1/Library/Application Support/SuperCollider/Extensions/MyPlugins/BufFFT/source/ness_stretch/target/release/deps/dasp_sample-1d77d21ec9e19244.rmeta: /Users/spluta1/.cargo/registry/src/index.crates.io-6f17d22bba15001f/dasp_sample-0.11.0/src/lib.rs /Users/spluta1/.cargo/registry/src/index.crates.io-6f17d22bba15001f/dasp_sample-0.11.0/src/conv.rs /Users/spluta1/.cargo/registry/src/index.crates.io-6f17d22bba15001f/dasp_sample-0.11.0/src/ops.rs /Users/spluta1/.cargo/registry/src/index.crates.io-6f17d22bba15001f/dasp_sample-0.11.0/src/types.rs
+
+/Users/spluta1/Library/Application Support/SuperCollider/Extensions/MyPlugins/BufFFT/source/ness_stretch/target/release/deps/libdasp_sample-1d77d21ec9e19244.rlib: /Users/spluta1/.cargo/registry/src/index.crates.io-6f17d22bba15001f/dasp_sample-0.11.0/src/lib.rs /Users/spluta1/.cargo/registry/src/index.crates.io-6f17d22bba15001f/dasp_sample-0.11.0/src/conv.rs /Users/spluta1/.cargo/registry/src/index.crates.io-6f17d22bba15001f/dasp_sample-0.11.0/src/ops.rs /Users/spluta1/.cargo/registry/src/index.crates.io-6f17d22bba15001f/dasp_sample-0.11.0/src/types.rs
+
+/Users/spluta1/Library/Application Support/SuperCollider/Extensions/MyPlugins/BufFFT/source/ness_stretch/target/release/deps/dasp_sample-1d77d21ec9e19244.d: /Users/spluta1/.cargo/registry/src/index.crates.io-6f17d22bba15001f/dasp_sample-0.11.0/src/lib.rs /Users/spluta1/.cargo/registry/src/index.crates.io-6f17d22bba15001f/dasp_sample-0.11.0/src/conv.rs /Users/spluta1/.cargo/registry/src/index.crates.io-6f17d22bba15001f/dasp_sample-0.11.0/src/ops.rs /Users/spluta1/.cargo/registry/src/index.crates.io-6f17d22bba15001f/dasp_sample-0.11.0/src/types.rs
+
+/Users/spluta1/.cargo/registry/src/index.crates.io-6f17d22bba15001f/dasp_sample-0.11.0/src/lib.rs:
+/Users/spluta1/.cargo/registry/src/index.crates.io-6f17d22bba15001f/dasp_sample-0.11.0/src/conv.rs:
+/Users/spluta1/.cargo/registry/src/index.crates.io-6f17d22bba15001f/dasp_sample-0.11.0/src/ops.rs:
+/Users/spluta1/.cargo/registry/src/index.crates.io-6f17d22bba15001f/dasp_sample-0.11.0/src/types.rs:

@@ -1,0 +1,10 @@
+/Users/spluta1/Library/Application Support/SuperCollider/Extensions/MyPlugins/BufFFT/source/ness_stretch/target/debug/deps/num_complex-e17b3781c040bc4f.rmeta: /Users/spluta1/.cargo/registry/src/index.crates.io-6f17d22bba15001f/num-complex-0.4.4/src/lib.rs /Users/spluta1/.cargo/registry/src/index.crates.io-6f17d22bba15001f/num-complex-0.4.4/src/cast.rs /Users/spluta1/.cargo/registry/src/index.crates.io-6f17d22bba15001f/num-complex-0.4.4/src/pow.rs /Users/spluta1/.cargo/registry/src/index.crates.io-6f17d22bba15001f/num-complex-0.4.4/src/complex_float.rs
+
+/Users/spluta1/Library/Application Support/SuperCollider/Extensions/MyPlugins/BufFFT/source/ness_stretch/target/debug/deps/libnum_complex-e17b3781c040bc4f.rlib: /Users/spluta1/.cargo/registry/src/index.crates.io-6f17d22bba15001f/num-complex-0.4.4/src/lib.rs /Users/spluta1/.cargo/registry/src/index.crates.io-6f17d22bba15001f/num-complex-0.4.4/src/cast.rs /Users/spluta1/.cargo/registry/src/index.crates.io-6f17d22bba15001f/num-complex-0.4.4/src/pow.rs /Users/spluta1/.cargo/registry/src/index.crates.io-6f17d22bba15001f/num-complex-0.4.4/src/complex_float.rs
+
+/Users/spluta1/Library/Application Support/SuperCollider/Extensions/MyPlugins/BufFFT/source/ness_stretch/target/debug/deps/num_complex-e17b3781c040bc4f.d: /Users/spluta1/.cargo/registry/src/index.crates.io-6f17d22bba15001f/num-complex-0.4.4/src/lib.rs /Users/spluta1/.cargo/registry/src/index.crates.io-6f17d22bba15001f/num-complex-0.4.4/src/cast.rs /Users/spluta1/.cargo/registry/src/index.crates.io-6f17d22bba15001f/num-complex-0.4.4/src/pow.rs /Users/spluta1/.cargo/registry/src/index.crates.io-6f17d22bba15001f/num-complex-0.4.4/src/complex_float.rs
+
+/Users/spluta1/.cargo/registry/src/index.crates.io-6f17d22bba15001f/num-complex-0.4.4/src/lib.rs:
+/Users/spluta1/.cargo/registry/src/index.crates.io-6f17d22bba15001f/num-complex-0.4.4/src/cast.rs:
+/Users/spluta1/.cargo/registry/src/index.crates.io-6f17d22bba15001f/num-complex-0.4.4/src/pow.rs:
+/Users/spluta1/.cargo/registry/src/index.crates.io-6f17d22bba15001f/num-complex-0.4.4/src/complex_float.rs:

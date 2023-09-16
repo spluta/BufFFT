@@ -35,7 +35,7 @@ code::
 (
 ~overlaps = 2;
 ~fftSize = 16384;
-d = Buffer.read(s, Platform.resourceDir +/+ "sounds/a11wlk01.wav");
+d = Buffer.read(s, PathName(BufFFT.filenameSymbol.asString).pathOnly+/+"sounds/Stairs.wav";);
 
 e = Array.fill(~overlaps, {Buffer.alloc(s, ~fftSize)});
 )

@@ -54,9 +54,9 @@ code::
 //NRT will give you the best result
 //NRT can also process any number of channels, so a 100 channel input sound file will result in a 100 channel output file
 (
-f = Platform.resourceDir +/+ "sounds/a11wlk01.wav";
+f = PathName(BufFFT.filenameSymbol.asString).pathOnly+/+"sounds/Stairs2.wav";
 
-NessStretch.renderNRT(f, 100, 9, 0, 3, 1, -1, Platform.recordingsDir+/+"aChild_100.wav")
+NessStretch.renderNRT(f, 100, 9, 0, 3, 1, -1, Platform.recordingsDir+/+"NessStairs_100.wav")
 )
 
 //(if precision at the beginning of a file is imperative, add some silence to the front of the file to be processed)
@@ -73,7 +73,7 @@ b = Buffer.read(s, f); //read the left channel
 
 (//for a stereo file, load each channel separately
 //real-time mode is possible, but is likely to have hiccups
-f = "some stereo file on your computer";
+f = PathName(BufFFT.filenameSymbol.asString).pathOnly+/+"sounds/Stairs2.wav";
 c = Buffer.readChannel(s, f, channels:[0]); //read the left channel
 d = Buffer.readChannel(s, f, channels:[1]); //read the right channel
 )

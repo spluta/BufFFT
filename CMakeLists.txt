@@ -54,3 +54,39 @@ TARGET_LINK_LIBRARIES(
   dl
   pthread
 )
+
+# set installation directory
+if(CMAKE_INSTALL_PREFIX_INITIALIZED_TO_DEFAULT OR NOT CMAKE_INSTALL_PREFIX)
+  set(CMAKE_INSTALL_PREFIX "${CMAKE_BINARY_DIR}/${lib_name}" CACHE PATH "Install prefix" FORCE)
+else()
+  set(CMAKE_INSTALL_PREFIX "${CMAKE_INSTALL_PREFIX}/${lib_name}")
+endif()
+
+install(DIRECTORY "${lib_name}/Classes" "${lib_name}/HelpSource" DESTINATION "${CMAKE_INSTALL_PREFIX}")
+
+install(DIRECTORY DESTINATION "${CMAKE_INSTALL_PREFIX}/scx_files")
+
+if(APPLE)
+  install(FILES ${CMAKE_BINARY_DIR}/BufFFT.scx DESTINATION ${CMAKE_INSTALL_PREFIX}/scx_files)
+  install(FILES ${CMAKE_BINARY_DIR}/BufIFFT.scx DESTINATION ${CMAKE_INSTALL_PREFIX}/scx_files)
+  
+  install(FILES ${CMAKE_BINARY_DIR}/BufIFFT2.scx DESTINATION ${CMAKE_INSTALL_PREFIX}/scx_files)
+  install(FILES ${CMAKE_BINARY_DIR}/BufFFTTrigger.scx DESTINATION ${CMAKE_INSTALL_PREFIX}/scx_files)
+  install(FILES ${CMAKE_BINARY_DIR}/BufFFTTrigger2.scx DESTINATION ${CMAKE_INSTALL_PREFIX}/scx_files)
+  install(FILES ${CMAKE_BINARY_DIR}/BufFFT_BufCopy.scx DESTINATION ${CMAKE_INSTALL_PREFIX}/scx_files)
+  install(FILES ${CMAKE_BINARY_DIR}/PV_AccumPhase.scx DESTINATION ${CMAKE_INSTALL_PREFIX}/scx_files)
+  install(FILES ${CMAKE_BINARY_DIR}/NessStretchUGen.scx DESTINATION ${CMAKE_INSTALL_PREFIX}/scx_files)
+endif()
+
+if(WIN32)
+install(FILES ${CMAKE_BINARY_DIR}/Release/BufFFT.scx DESTINATION ${CMAKE_INSTALL_PREFIX}/scx_files)
+  install(FILES ${CMAKE_BINARY_DIR}/Release/BufIFFT.scx DESTINATION ${CMAKE_INSTALL_PREFIX}/scx_files)
+  
+  install(FILES ${CMAKE_BINARY_DIR}/Release/BufIFFT2.scx DESTINATION ${CMAKE_INSTALL_PREFIX}/scx_files)
+  install(FILES ${CMAKE_BINARY_DIR}/Release/BufFFTTrigger.scx DESTINATION ${CMAKE_INSTALL_PREFIX}/scx_files)
+  install(FILES ${CMAKE_BINARY_DIR}/Release/BufFFTTrigger2.scx DESTINATION ${CMAKE_INSTALL_PREFIX}/scx_files)
+  install(FILES ${CMAKE_BINARY_DIR}/Release/BufFFT_BufCopy.scx DESTINATION ${CMAKE_INSTALL_PREFIX}/scx_files)
+  install(FILES ${CMAKE_BINARY_DIR}/Release/PV_AccumPhase.scx DESTINATION ${CMAKE_INSTALL_PREFIX}/scx_files)
+  install(FILES ${CMAKE_BINARY_DIR}/Release/NessStretchUGen.scx DESTINATION ${CMAKE_INSTALL_PREFIX}/scx_files)
+
+endif()

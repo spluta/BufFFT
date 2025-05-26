@@ -1,5 +1,8 @@
 cmake_minimum_required (VERSION 2.8)
-project (BufFFT)
+
+set(lib_name "BufFFT")
+project("${lib_name}")
+
 set(RUST_DIR "source/ness_stretch")
 
 include_directories(${SC_PATH}/include/plugin_interface)

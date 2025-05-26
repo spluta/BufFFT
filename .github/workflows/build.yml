@@ -1,0 +1,138 @@
+name: sc-build
+
+on:
+  workflow_dispatch:
+
+jobs:
+  build:
+
+    runs-on: ${{matrix.os}}
+    strategy:
+      matrix:
+        # os: [windows-latest, macos-14, macos-13]
+        os: [macos-14]
+
+    steps:
+    - uses: actions/checkout@v2
+      with:
+        submodules: 'recursive'
+
+    - name: Get SC source code
+      run: git clone https://github.com/supercollider/supercollider.git ${{github.workspace}}/supercollider
+
+# for windows we have to explicitly add the libsamplerate build job here
+    - name: ness_stretch
+      run: |
+        cd source/ness_stretch
+        cargo build --release
+        
+    - name: Create Build Environment
+      run: cmake -E make_directory ${{github.workspace}}/build
+
+# Build the plugins
+
+    - name: Configure CMake (Unix)
+      shell: bash
+      if: matrix.os != 'windows-latest'
+      working-directory: ${{github.workspace}}/build
+      run: cmake .. -DCMAKE_BUILD_TYPE='Release' -DSC_PATH=${{github.workspace}}/supercollider
+
+    - name: Configure CMake (Windows)
+      if: matrix.os == 'windows-latest'
+      shell: pwsh
+      working-directory: ${{github.workspace}}\build
+      run: cmake .. -DCMAKE_BUILD_TYPE='Release' -DSC_PATH=${{github.workspace}}\supercollider
+
+    - name: Build (Unix)
+      if: matrix.os != 'windows-latest'
+      working-directory: ${{github.workspace}}/build
+      shell: bash
+      run: cmake --build . --config "Release" --target install
+
+    - name: Build (Windows)
+      working-directory: ${{github.workspace}}\build
+      if: matrix.os == 'windows-latest'
+      shell: pwsh
+      run: cmake --build . --config "Release" --target install
+
+# Zip the SC plugins
+
+    - name: Zip up build (macOS-14)
+      if: matrix.os == 'macos-14'
+      shell: bash
+      working-directory: ${{github.workspace}}
+      run: zip -r BufFFT-mac_arm.zip build
+
+    - name: Zip up build (macOS-13)
+      if: matrix.os == 'macos-13'
+      shell: bash
+      working-directory: ${{github.workspace}}
+      run: zip -r BufFFT-mac_intel.zip build 
+
+    - name: Zip up build (Windows)
+      if: matrix.os == 'windows-latest'
+      shell: pwsh
+      working-directory: ${{github.workspace}}
+      run: Compress-Archive -Path ${{github.workspace}}\build -Destination "${{github.workspace}}/BufFFT-${{runner.os}}.zip"
+
+  # upload SC binaries to release
+
+    - name: Check if release has been created
+      uses: mukunku/tag-exists-action@v1.6.0
+      id: checkTag
+      with:
+        tag: 'v1'
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+    - name: Create Release (macOS-14)
+      if: steps.checkTag.outputs.exists == false && matrix.os == 'macos-14'
+      id: create_release_arm
+      uses: actions/create-release@v1
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      with:
+        tag_name: ${{ github.ref }}
+        release_name: BufFFT-arm-${{ github.ref }}
+        draft: false
+        prerelease: false
+
+    - name: Create Release (macOS-13)
+      if: steps.checkTag.outputs.exists == false && matrix.os == 'macos-13'
+      id: create_release_x86
+      uses: actions/create-release@v1
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      with:
+        tag_name: ${{ github.ref }}
+        release_name: BufFFT-x86-${{ github.ref }}
+        draft: false
+        prerelease: false
+
+    - name: Upload binaries to release (macOS-14)
+      if: matrix.os == 'macos-14'
+      uses: svenstaro/upload-release-action@v2
+      with:
+        repo_token: ${{ secrets.GITHUB_TOKEN }}
+        file: ${{github.workspace}}/BufFFT/build/BufFFT-mac_arm.zip
+        asset_name: BufFFT-mac_arm.zip
+        tag: ${{ github.ref }}
+
+    - name: Upload binaries to release (macOS-13)
+      if: matrix.os == 'macos-13'
+      uses: svenstaro/upload-release-action@v2
+      with:
+        repo_token: ${{ secrets.GITHUB_TOKEN }}
+        file: ${{github.workspace}}/BufFFT/build/BufFFT-mac_intel.zip
+        asset_name: BufFFT-mac_intel.zip
+        tag: ${{ github.ref }}
+
+    - name: Upload binaries to release (Windows)
+      if: matrix.os == 'windows-latest'
+      uses: svenstaro/upload-release-action@v2
+      with:
+        repo_token: ${{ secrets.GITHUB_TOKEN }}
+        file: ${{github.workspace}}/BufFFT-${{runner.os}}.zip
+        asset_name: BufFFT-${{runner.os}}.zip
+        tag: ${{ github.ref }}
+
